@@ -1,0 +1,619 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#f5b9c8">
+<meta name="description" content="Интерактивный онлайн-квест ко Дню матери: найди муку и яйца для праздничного торта."><title>Секретный рецепт праздничного торта для мамы</title>
+<style>
+:root{--pink:#ef8fae;--rose:#cc547f;--cream:#fff8ec;--brown:#684638;--gold:#f5c76d;--mint:#8dc9ad;--lav:#b9a7df}
+*{box-sizing:border-box} body{margin:0;font-family: ui-rounded,"Trebuchet MS",system-ui,sans-serif;color:var(--brown);background:radial-gradient(circle at 12% 12%,#fff 0 3px,transparent 4px),linear-gradient(135deg,#fff1e7,#fce2eb 55%,#eee6ff);min-height:100vh}
+button{font:inherit;cursor:pointer}.app{max-width:1120px;margin:auto;padding:22px 18px 32px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}.top-actions{display:flex;align-items:center;gap:8px}.sound-toggle{border:1px solid #e8c2d0;border-radius:999px;background:#fff;color:#85536a;padding:8px 12px;font:inherit;font-size:14px;font-weight:800;white-space:nowrap;cursor:pointer}.sound-toggle:hover{background:#fff4f7}.sound-toggle:focus-visible{outline:4px solid #7854b8;outline-offset:3px}.brand{font-weight:900;letter-spacing:.02em;color:#a84d70}.pill{background:#fff9;border:1px solid #fff;padding:8px 13px;border-radius:999px;font-size:13px;font-weight:800;box-shadow:0 4px 14px #9f59701a}
+.panel{position:relative;overflow:hidden;border:5px solid #fff;border-radius:30px;background:#fffaf3;box-shadow:0 16px 40px #824b6425;min-height:650px}.screen{display:none;min-height:640px;padding:clamp(18px,4vw,42px)}.screen.active{display:flex;flex-direction:column}.hero{background:linear-gradient(150deg,#fff3df,#ffe5ec 58%,#e9e0ff)}.hero:before,.hero:after{content:"✦";position:absolute;color:#fff;font-size:90px;opacity:.6}.hero:before{top:14px;right:7%}.hero:after{bottom:30px;left:5%;font-size:62px}.hero-content{display:grid;grid-template-columns:1fr 1.05fr;gap:20px;align-items:center;flex:1;z-index:1}.copy h1{font-size:clamp(30px,5vw,54px);line-height:1.06;margin:0 0 15px;color:#a84970}.copy p{font-size:clamp(16px,2vw,19px);line-height:1.55;margin:0 0 18px}.speech{background:#fff;border:2px solid #f7c9d6;border-radius:22px;padding:18px 20px;box-shadow:0 8px 18px #a9547520;line-height:1.55}.art{min-height:360px;display:flex;align-items:center;justify-content:center}.kitchen-svg{width:100%;max-width:500px;filter:drop-shadow(0 12px 10px #875b4920)}
+.primary{border:0;border-radius:999px;padding:15px 30px;background:linear-gradient(120deg,#e66e99,#c55d91);color:white;font-weight:900;font-size:18px;box-shadow:0 7px 0 #a74671,0 12px 20px #b254762a;transition:.15s}.primary:hover{transform:translateY(-2px);filter:brightness(1.04)}.primary:active{transform:translateY(4px);box-shadow:0 3px 0 #a74671}.small-note{font-size:13px;opacity:.75;margin-top:12px}
+.pantry{background:linear-gradient(180deg,#fff6e9,#fffaf4 40%,#f9e4e9)}.heading{text-align:center;z-index:1}.heading .eyebrow{font-weight:900;color:#bf7090;text-transform:uppercase;letter-spacing:.12em;font-size:12px}.heading h2{font-size:clamp(28px,4vw,43px);color:#9e4d6e;margin:7px 0}.heading p{margin:0 auto;max-width:740px;line-height:1.5;font-size:17px}.pantry-grid{display:grid;grid-template-columns: minmax(180px,.75fr) 1.5fr;gap:22px;align-items:stretch;margin:25px 0 16px;z-index:1;flex:1}.shadow-box{background:#4b3c3a;border-radius:24px;padding:20px;color:#fff;text-align:center;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:15px;box-shadow:inset 0 -6px 0 #302725,0 10px 22px #603d3720}.shadow-box h3{margin:0;font-size:19px}.silhouette{width:132px;height:154px;display:grid;place-items:center;background:#fff1;border:2px dashed #ffffff6b;border-radius:18px}.silhouette svg{width:110px;height:125px;filter:brightness(0) saturate(0)}.hint{font-size:13px;opacity:.88;line-height:1.4}.shelves{background:#f4d9bd;border:8px solid #b77b53;border-radius:20px;padding:16px;box-shadow:inset 0 0 0 3px #ffedcf,0 10px 22px #68463820;display:grid;grid-template-columns:1fr 1fr;gap:14px;position:relative}.shelves:before{content:"";position:absolute;left:10px;right:10px;top:50%;height:9px;border-radius:8px;background:#b77b53;box-shadow:0 4px 0 #8d583c}.choice{border:3px solid #fff;background:linear-gradient(145deg,#fff,#fff8ef);border-radius:18px;min-height:155px;padding:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:#654638;box-shadow:0 5px 10px #7e54301b;transition:transform .16s,border-color .16s,box-shadow .16s;z-index:1}.choice:hover{transform:translateY(-3px);border-color:#f1a2bc;box-shadow:0 9px 16px #7e54302a}.choice:focus-visible,.primary:focus-visible,.next:focus-visible{outline:4px solid #7854b8;outline-offset:3px}.choice .pic{font-size:60px;line-height:1.15;filter:drop-shadow(0 4px 2px #795a3430)}.choice strong{font-size:15px}.choice.correct{border-color:#6fbd8e;background:#effbf2;animation:pop .4s ease}.choice.wrong{border-color:#e68181;background:#fff1f1;animation:shake .3s ease}.choice:disabled{cursor:default;opacity:.75}.bottom-row{display:flex;justify-content:space-between;align-items:center;gap:14px;z-index:1}.basket{background:#fff;border:2px solid #f4cad7;border-radius:18px;padding:10px 15px;font-weight:900;min-height:54px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}.basket-items{font-size:24px}.status{min-height:28px;font-weight:800;text-align:center;color:#a84d70;margin:8px 0}.next{border:0;border-radius:999px;padding:13px 22px;background:#70b88d;color:white;font-weight:900;box-shadow:0 5px 0 #478b65;display:none}.next.show{display:inline-block;animation:pop .35s ease}
+.birdyard{background:linear-gradient(180deg,#e9f8e7 0%,#f8f8df 52%,#ffe9d9 100%);position:relative}
+.birdyard:before{content:"☀";position:absolute;top:20px;right:6%;font-size:76px;color:#f5c76d;opacity:.8}
+.bird-intro{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;z-index:1}
+.sound-panel{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;background:#fff;border:2px solid #cce5c6;border-radius:18px;padding:12px 18px;box-shadow:0 7px 16px #467b4520;margin:16px auto 4px;max-width:620px}
+.sound-btn{border:0;border-radius:999px;background:#70b88d;color:white;font-weight:900;padding:12px 18px;box-shadow:0 4px 0 #478b65}
+.birds{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:22px 0 14px;z-index:1}
+.bird-choice{border:3px solid white;border-radius:20px;background:linear-gradient(150deg,#fff,#f5fff2);min-height:185px;padding:14px 8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:#5c553e;box-shadow:0 7px 15px #426f3b1c;transition:transform .16s,border-color .16s}
+.bird-choice:hover{transform:translateY(-4px);border-color:#9bd3a0}
+.bird-choice .bird{font-size:clamp(52px,7vw,78px);line-height:1.1;filter:drop-shadow(0 5px 3px #6f734a22)}
+.bird-choice strong{font-size:16px}
+.bird-choice.correct{border-color:#62b982;background:#effbf1;animation:pop .4s ease}
+.bird-choice.wrong{border-color:#e68181;background:#fff1f1;animation:shake .3s ease}
+.bird-choice:disabled{cursor:default;opacity:.78}
+.birdyard .bottom-row{margin-top:auto}
+.birdyard .basket{border-color:#cce5c6}
+.sound-credit{font-size:11px;opacity:.65;text-align:center;margin-top:6px}
+.egg-success{background:linear-gradient(145deg,#f2ffe9,#fff0da,#ffe2ed);align-items:center;justify-content:center;text-align:center}
+.egg-success h2{color:#548d65;font-size:clamp(30px,5vw,48px);margin:12px}
+.egg-success p{font-size:18px;line-height:1.6;max-width:650px}
+.egg-basket{font-size:64px;filter:drop-shadow(0 7px 7px #6a8b5a20)}
+
+.meadow{background:linear-gradient(180deg,#e5f7e1 0%,#f7f5d9 52%,#ffe8d6 100%);position:relative}
+.meadow:before{content:"☀";position:absolute;top:18px;right:6%;font-size:76px;color:#f5c76d;opacity:.85}
+.meadow-scene{display:grid;grid-template-columns:.9fr 1.1fr;gap:16px;align-items:center;margin:18px 0 12px;z-index:1}
+.cow-card{background:linear-gradient(145deg,#fff,#f5fff1);border:3px solid #fff;border-radius:24px;min-height:190px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:15px;box-shadow:0 8px 18px #467b4520}
+.cow-emoji{font-size:clamp(76px,10vw,112px);line-height:1.1;filter:drop-shadow(0 7px 5px #617f4c25)}
+.cow-speech{background:#fff;border:2px solid #cce5c6;border-radius:16px;padding:10px 14px;text-align:center;font-weight:800;margin-top:8px}
+.yard-props{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:10px;font-size:27px}
+.odd-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px;margin:16px 0 14px;z-index:1}
+.odd-choice{border:3px solid #fff;border-radius:20px;background:linear-gradient(150deg,#fff,#f5fff2);min-height:155px;padding:12px 7px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;color:#5c553e;box-shadow:0 7px 15px #426f3b1c;transition:transform .18s,border-color .18s,opacity .2s}
+.odd-choice:hover{transform:translateY(-4px);border-color:#9bd3a0}
+.odd-choice .pic{font-size:clamp(46px,6vw,66px);line-height:1.1;filter:drop-shadow(0 5px 3px #6f734a22)}
+.odd-choice strong{font-size:15px}
+.odd-choice.correct{border-color:#62b982;background:#effbf1;animation:pop .4s ease}
+.odd-choice.wrong{border-color:#e68181;background:#fff1f1;animation:shake .3s ease}
+.odd-choice.removed{opacity:0;transform:translateY(-25px) scale(.7);pointer-events:none}
+.odd-choice:disabled{cursor:default;opacity:.78}
+.odd-choice.removed:disabled{opacity:0}
+.meadow .bottom-row{margin-top:auto}
+.meadow .basket{border-color:#cce5c6}
+.milk-success{background:linear-gradient(145deg,#efffe9,#fff4d9,#ffe3ed);align-items:center;justify-content:center;text-align:center}
+.milk-success h2{color:#548d65;font-size:clamp(30px,5vw,48px);margin:12px}
+.milk-success p{font-size:18px;line-height:1.6;max-width:660px}
+.milk-art{font-size:76px;filter:drop-shadow(0 7px 7px #6a8b5a20)}
+@media(max-width:760px){.meadow-scene{grid-template-columns:1fr}.cow-card{min-height:155px}.odd-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.odd-choice{min-height:130px}.odd-choice .pic{font-size:48px}}
+@media(max-width:760px){.birds{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.bird-choice{min-height:145px}.bird-choice .bird{font-size:54px}.sound-panel{padding:10px}.bird-intro .heading p{font-size:15px}}
+@media(max-width:760px){.top{flex-wrap:wrap}.top-actions{width:100%;justify-content:space-between}}
+
+.end{background:linear-gradient(145deg,#fff1db,#ffe3ec,#ede6ff);align-items:center;justify-content:center;text-align:center}.end h2{color:#a84970;font-size:clamp(30px,5vw,48px);margin:12px}.end p{font-size:18px;line-height:1.6;max-width:620px}.cake{font-size:110px;filter:drop-shadow(0 10px 8px #86506020)}.restart{border:0;background:#fff;color:#a84970;padding:12px 20px;border-radius:999px;font-weight:900}.footer{text-align:center;font-size:12px;opacity:.65;margin-top:12px}
+@keyframes pop{0%{transform:scale(.9)}60%{transform:scale(1.04)}100%{transform:scale(1)}}@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+@media(max-width:760px){.app{padding:12px}.panel{min-height:0}.screen{min-height:0;padding:20px 15px}.hero-content{grid-template-columns:1fr}.art{min-height:235px;grid-row:1}.kitchen-svg{max-height:280px}.copy{text-align:center}.pantry-grid{grid-template-columns:1fr}.shadow-box{flex-direction:row;padding:12px}.silhouette{width:75px;height:82px}.silhouette svg{width:65px;height:74px}.shelves{padding:10px;gap:9px}.choice{min-height:125px}.choice .pic{font-size:46px}.bottom-row{align-items:stretch;flex-direction:column}.bottom-row .next{width:100%}.basket{justify-content:center}}
+
+.kitchen-dance{background:linear-gradient(180deg,#fff0dd 0%,#ffe5ed 52%,#eee6ff 100%);position:relative}
+.kitchen-dance:before{content:"✦";position:absolute;top:18px;right:7%;font-size:76px;color:#efbb65;opacity:.8}
+.dance-layout{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:center;margin:20px 0;z-index:1;flex:1}
+.dance-card{background:#fff;border:3px solid #fff;border-radius:24px;padding:20px;text-align:center;box-shadow:0 8px 18px #99566d20}
+.dance-bowl-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;min-height:260px;background:linear-gradient(145deg,#fff,#fff5f7);border:3px solid #f5c5d4;border-radius:26px;box-shadow:inset 0 -6px 0 #f8dce5,0 8px 18px #99566d20;padding:18px}
+.dance-bowl{font-size:clamp(100px,15vw,150px);line-height:1.15;filter:drop-shadow(0 8px 7px #81526a26);transition:transform .25s}
+.dance-bowl.ready{cursor:pointer;animation:bowlPulse 1s infinite alternate}
+.dance-bowl.ready:hover{transform:scale(1.05)}
+.dance-bowl:disabled{cursor:default}
+.dance-instruction{font-size:clamp(18px,2.5vw,24px);font-weight:900;color:#a84d70;line-height:1.35;margin:10px 0}
+.dance-timer{font-size:clamp(36px,6vw,52px);font-weight:1000;color:#b04e78;font-variant-numeric:tabular-nums}
+.dance-progress{height:12px;background:#f4dce5;border-radius:999px;overflow:hidden;margin:12px 0}
+.dance-progress span{display:block;height:100%;width:0;background:linear-gradient(90deg,#e66e99,#f3bd68);border-radius:inherit;transition:width .3s}
+.dance-controls{display:flex;align-items:center;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:14px}
+.dance-note{font-size:14px;line-height:1.5;color:#765563}
+.dance-start{border:0;border-radius:999px;padding:13px 22px;background:linear-gradient(120deg,#e66e99,#c55d91);color:#fff;font-weight:900;box-shadow:0 5px 0 #a74671}
+.dance-start:disabled{opacity:.55;cursor:default}
+.cream-reveal{display:none;background:#f4fff3;border:2px solid #a6d7ac;border-radius:18px;padding:12px 16px;font-weight:900;color:#4f9563;line-height:1.5}
+.cream-reveal.show{display:block;animation:pop .45s ease}
+.cream-success{background:linear-gradient(145deg,#fff6e9,#ffe8ef,#f0eaff);align-items:center;justify-content:center;text-align:center}
+.cream-success h2{color:#a84d70;font-size:clamp(30px,5vw,48px);margin:12px}
+.cream-success p{font-size:18px;line-height:1.6;max-width:680px}
+.cream-art{font-size:clamp(76px,12vw,108px);filter:drop-shadow(0 8px 7px #81526a26);animation:pop .5s ease}
+@keyframes bowlPulse{from{filter:drop-shadow(0 8px 7px #81526a26)}to{filter:drop-shadow(0 10px 16px #e88eb4aa)}}
+@media(max-width:760px){.dance-layout{grid-template-columns:1fr}.dance-bowl-wrap{min-height:210px}.dance-bowl{font-size:100px}}
+
+
+/* Этап 5 — клубничный пазл */
+.strawberry-garden{background:linear-gradient(180deg,#e7f8e7 0%,#fff6dc 55%,#ffe6ec 100%);position:relative}
+.strawberry-garden:before{content:"✿";position:absolute;top:16px;right:6%;font-size:76px;color:#e98eaa;opacity:.7}
+.garden-scene{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:center;margin:18px 0 14px;z-index:1}
+.garden-card{background:linear-gradient(145deg,#fff,#f7fff1);border:3px solid #fff;border-radius:22px;min-height:125px;padding:14px;display:flex;align-items:center;justify-content:center;gap:14px;box-shadow:0 8px 18px #467b4520;text-align:left}
+.garden-card .garden-emoji{font-size:62px;line-height:1}
+.garden-card p{margin:0;line-height:1.45;font-weight:700}
+.garden-layout{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start;margin:8px 0 14px;z-index:1;flex:1}
+.puzzle-panel,.pieces-panel{background:#ffffffd9;border:3px solid #fff;border-radius:24px;padding:16px;box-shadow:0 8px 18px #99566d18}
+.puzzle-title{text-align:center;font-weight:900;color:#638d5e;margin:0 0 12px}
+.puzzle-board{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(2,minmax(84px,1fr));gap:5px;background:#d8edca;border:5px solid #b5d59f;border-radius:18px;padding:6px;overflow:hidden}
+.puzzle-slot{min-width:0;min-height:84px;border:2px dashed #9cbd8b;border-radius:10px;background:linear-gradient(145deg,#f7fff1,#eaf5df);display:flex;align-items:center;justify-content:center;color:#a2bb91;font-size:25px;overflow:hidden;position:relative}
+.puzzle-slot:before{content:"✦";opacity:.45}
+.puzzle-slot.filled{border:1px solid #fff;background:#fff;animation:pop .35s ease}
+.puzzle-slot.filled:before{display:none}
+.puzzle-slot svg{display:block;width:100%;height:100%}
+.puzzle-board.completed{border-color:#76b98a;box-shadow:0 0 0 4px #d8f0d9}
+.piece-tray{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.puzzle-piece{border:3px solid #fff;background:linear-gradient(145deg,#fff,#fff8ef);border-radius:15px;min-width:0;min-height:108px;padding:5px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;box-shadow:0 5px 12px #7e54301b;transition:transform .16s,border-color .16s,opacity .2s}
+.puzzle-piece:hover{transform:translateY(-3px);border-color:#eda3ba}
+.puzzle-piece svg{display:block;width:100%;height:76px;border-radius:9px}
+.puzzle-piece span{font-size:11px;font-weight:900;color:#8f6680}
+.puzzle-piece.used{opacity:.24;transform:scale(.93);filter:grayscale(.7);pointer-events:none}
+.puzzle-piece:disabled{cursor:default}
+.garden-status{min-height:30px;text-align:center;color:#a84d70;font-weight:900;margin:8px 0}
+.strawberry-garden .bottom-row{margin-top:auto}
+.strawberry-garden .basket{border-color:#cce5c6}
+/* Финальный праздничный экран */
+.finale{background:radial-gradient(circle at 50% 20%,#fff 0 5%,transparent 45%),linear-gradient(145deg,#fff0d8,#ffe0ea 58%,#e8e2ff);align-items:center;text-align:center;position:relative;overflow:hidden}
+.finale h2{font-size:clamp(32px,5vw,54px);line-height:1.05;color:#a84970;margin:8px 0 10px;z-index:1}
+.finale .final-message{font-size:clamp(17px,2vw,20px);line-height:1.55;max-width:780px;margin:4px auto 12px;z-index:1}
+.cake-stage{width:min(100%,520px);margin:0 auto 8px;z-index:1;filter:drop-shadow(0 12px 12px #8f547226);animation:cakeAppear .8s cubic-bezier(.2,.8,.2,1) both}
+.cake-stage svg{width:100%;height:auto;display:block}
+@keyframes cakeAppear{from{transform:translateY(28px) scale(.78);opacity:0}to{transform:translateY(0) scale(1);opacity:1}}
+.secret-ingredient{background:#fff9;border:2px solid #f3bfd0;border-radius:22px;padding:12px 18px;max-width:760px;margin:6px auto 16px;font-weight:900;color:#a84d70;z-index:1;box-shadow:0 7px 18px #99566d15}
+.final-actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:14px;z-index:1}
+.confetti-layer{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+.confetti-piece{position:absolute;top:-24px;width:10px;height:17px;border-radius:3px;opacity:.9;animation:confettiFall var(--fall-duration,4.2s) linear var(--fall-delay,0s) forwards;transform:rotate(var(--turn,0deg))}
+@keyframes confettiFall{0%{transform:translate3d(0,-20px,0) rotate(0deg);opacity:0}10%{opacity:1}100%{transform:translate3d(var(--drift,40px),760px,0) rotate(760deg);opacity:.2}}
+@media(max-width:760px){.garden-scene{grid-template-columns:1fr}.garden-card{min-height:100px}.garden-layout{grid-template-columns:1fr}.puzzle-slot{min-height:80px}.puzzle-piece{min-height:95px}.puzzle-piece svg{height:68px}.piece-tray{gap:7px}.finale{padding-bottom:24px}.cake-stage{width:min(100%,390px)}}
+
+</style>
+</head>
+<body>
+<div class="app">
+ <div class="top"><div class="brand">💗 СКАЗОЧНАЯ МАСТЕРСКАЯ</div><div class="top-actions"><div class="pill" id="progress">Приключение начинается</div><button class="sound-toggle" id="soundToggle" type="button" aria-pressed="true">🔊 Звук включён</button></div></div>
+ <main class="panel">
+  <section class="screen hero active" id="intro">
+   <div class="hero-content">
+    <div class="copy">
+     <div class="pill">Праздничный онлайн-квест ко Дню матери</div>
+     <h1>Секретный рецепт праздничного торта для мамы</h1>
+     <div class="speech"><strong>Ребята, беда!</strong><br>Скоро День Матери, я хотел испечь для всех мам самый вкусный торт, но хитрый сквозняк унес все продукты по разным сказочным комнатам. Помогите мне собрать 5 ингредиентов по секретному рецепту!</div>
+     <p class="small-note">Наш первый след ведёт в волшебную кладовую.</p>
+     <button class="primary" id="start">В путь! ✨</button>
+    </div>
+    <div class="art" aria-label="Уютная сказочная кухня и грустный поварёнок">
+     <svg class="kitchen-svg" viewBox="0 0 520 430" role="img" aria-label="Поварёнок на сказочной кухне возле пустого стола">
+      <defs><linearGradient id="wall" x2="0" y2="1"><stop stop-color="#ffe9cb"/><stop offset="1" stop-color="#f8cdbd"/></linearGradient><linearGradient id="wood" x2="0" y2="1"><stop stop-color="#c8875b"/><stop offset="1" stop-color="#9f6045"/></linearGradient></defs>
+      <rect x="15" y="18" width="490" height="390" rx="34" fill="url(#wall)" stroke="#fff" stroke-width="9"/>
+      <path d="M34 287H486V372Q486 390 468 390H52Q34 390 34 372Z" fill="#f1c5a8"/>
+      <rect x="48" y="48" width="125" height="112" rx="13" fill="#fff5e6" stroke="#c98a68" stroke-width="8"/><path d="M110 49V159M49 104H172" stroke="#c98a68" stroke-width="7"/><circle cx="82" cy="81" r="9" fill="#f5c76d"/><path d="M144 138q-24-27-37 0" fill="none" stroke="#79b88b" stroke-width="7" stroke-linecap="round"/>
+      <rect x="357" y="63" width="95" height="105" rx="12" fill="#e9b0bf" stroke="#fff5e6" stroke-width="7"/><path d="M375 95h59M375 112h45" stroke="#fff4ef" stroke-width="6" stroke-linecap="round"/><path d="M376 145q25-29 49 0" fill="none" stroke="#fff4ef" stroke-width="6"/>
+      <path d="M41 290h438v23H41z" fill="#ba7750"/><path d="M72 313v75m376-75v75" stroke="#9e6044" stroke-width="17" stroke-linecap="round"/>
+      <rect x="194" y="246" width="150" height="45" rx="12" fill="#fff6e8" stroke="#c78a66" stroke-width="6"/><path d="M215 246v-25h108v25" fill="#f5d5b8" stroke="#c78a66" stroke-width="6"/><path d="M240 230q30-17 57 0" fill="none" stroke="#d7a27d" stroke-width="5"/>
+      <!-- маленький поварёнок -->
+      <ellipse cx="267" cy="204" rx="48" ry="45" fill="#d98d63"/><path d="M227 174q-14-42 18-47 16-33 41-8 34-13 39 22 16 24-6 38" fill="#fffdf7" stroke="#c28d76" stroke-width="6"/><path d="M236 167q-8-20 11-26 11-17 24-4 17-13 29 4 22-3 17 26" fill="#fff" stroke="#c28d76" stroke-width="5"/>
+      <circle cx="250" cy="196" r="5" fill="#67453b"/><circle cx="285" cy="196" r="5" fill="#67453b"/><path d="M257 219q10-10 20 0" fill="none" stroke="#8e4c4c" stroke-width="4" stroke-linecap="round"/><path d="M245 208q-9 9-14 1m64-1q9 9 14 1" stroke="#ed9b9c" stroke-width="5" stroke-linecap="round"/>
+      <path d="M233 243q34-20 68 0l14 55h-98z" fill="#89b8cf" stroke="#fff" stroke-width="5"/><path d="M259 246v24m-12-12h24" stroke="#fff4e6" stroke-width="5" stroke-linecap="round"/>
+      <path d="M222 257l-27 21m114-21 25 20" stroke="#d98d63" stroke-width="13" stroke-linecap="round"/><path d="M248 296v38m39-38v38" stroke="#d98d63" stroke-width="14" stroke-linecap="round"/>
+      <path d="M189 336q-16-16-28 0 13 13 28 0m151 0q13-16 27 0-13 13-27 0" fill="#fff6e8" stroke="#c58a6b" stroke-width="4"/>
+      <path d="M195 180q-12-21-26-2m168-5q14-20 26-1" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round"/><text x="260" y="74" text-anchor="middle" font-size="24" fill="#cf8a9e">✦ ✧ ✦</text>
+      <path d="M87 210q12-19 24 0-12 19-24 0m326-17q12-19 24 0-12 19-24 0" fill="#f6bc6d"/><path d="M95 194v-16m-8 8h16m318-19v-16m-8 8h16" stroke="#f6bc6d" stroke-width="4" stroke-linecap="round"/>
+     </svg>
+    </div>
+   </div>
+  </section>
+  <section class="screen pantry" id="pantry">
+   <div class="heading"><div class="eyebrow">Этап 1 · Сказочная кладовая</div><h2>В поисках муки 🌾</h2><p>Найдите на полке мешок с мукой, который подходит к этой тени, и нажмите на него.</p></div>
+   <div class="pantry-grid">
+    <div class="shadow-box"><h3>Найди такую же тень</h3><div class="silhouette"><svg viewBox="0 0 120 140" aria-hidden="true"><path d="M39 15h42l-4 19 12 17 12 68q-1 10-14 10H33q-13 0-14-10l12-68 12-17z" fill="#fff"/><path d="M39 15q21 8 42 0M31 51q29 15 58 0" fill="none" stroke="#fff" stroke-width="5"/></svg></div><div class="hint">Выбери предмет, который совпадает с силуэтом.</div></div>
+    <div class="shelves" aria-label="Предметы на полках кладовой">
+     <button class="choice" data-item="sugar" aria-label="Мешок сахара"><span class="pic">🧂</span><strong>Мешок сахара</strong></button>
+     <button class="choice" data-item="flour" aria-label="Мешок муки"><span class="pic">🌾</span><strong>Мешок муки</strong></button>
+     <button class="choice" data-item="milk" aria-label="Пакет молока"><span class="pic">🥛</span><strong>Пакет молока</strong></button>
+     <button class="choice" data-item="candy" aria-label="Коробка конфет"><span class="pic">🍬</span><strong>Коробка конфет</strong></button>
+    </div>
+   </div>
+   <div class="status" id="status" aria-live="polite">Подумай внимательно — что за предмет спрятался в тени?</div>
+   <div class="bottom-row"><div class="basket">🧺 Корзинка: <span class="basket-items" id="basket">пока пусто</span></div><button class="next" id="next">Отправиться дальше ➜</button></div>
+  </section>
+  <section class="screen end" id="success">
+   <div class="cake">🌾</div><h2>Ура! Мука найдена!</h2><p>Мешочек с мукой отправился в нашу корзинку. Первое испытание пройдено! А теперь отправляемся на птичий двор — там нас уже ждёт курочка.</p><div class="pill">💗 В корзинке уже есть: мука</div><p><strong>Молодцы, помощники!</strong></p><button class="primary" id="toBirdyard">На птичий двор! 🐔</button>
+  </section>
+
+  <section class="screen birdyard" id="birdyard">
+   <div class="bird-intro">
+    <div class="heading"><div class="eyebrow">Этап 2 · Птичий двор</div><h2>В поисках яиц 🥚</h2><p>Послушайте, кто так зовёт нас? Нажмите на ту птицу, чей голос вы услышали, и она поделится с нами свежими яйцами для теста.</p></div>
+    <div class="sound-panel">
+     <button class="sound-btn" id="playCluck">🔊 Послушать ещё раз</button>
+     <span id="soundStatus" aria-live="polite">Слушаем голос птички…</span>
+    </div>
+    <div class="sound-credit">Запись кудахтанья куриц: Wikimedia Commons · общественное достояние</div>
+   </div>
+   <div class="birds" aria-label="Выбери птицу, чей голос прозвучал">
+    <button class="bird-choice" data-bird="chicken" aria-label="Курица"><span class="bird">🐔</span><strong>Курица</strong></button>
+    <button class="bird-choice" data-bird="duck" aria-label="Утка"><span class="bird">🦆</span><strong>Утка</strong></button>
+    <button class="bird-choice" data-bird="goose" aria-label="Гусь"><span class="bird">🪿</span><strong>Гусь</strong></button>
+    <button class="bird-choice" data-bird="sparrow" aria-label="Воробей"><span class="bird">🐦</span><strong>Воробей</strong></button>
+   </div>
+   <div class="status" id="birdStatus" aria-live="polite">Кто же из птиц так кудахчет? Выбери одну птичку!</div>
+   <div class="bottom-row"><div class="basket">🧺 Корзинка: <span class="basket-items" id="birdBasket">🌾</span></div><button class="next" id="eggsNext">Забрать яйца в корзинку ➜</button></div>
+   <audio id="cluckAudio" src="assets/chicken-cluck.mp3" preload="metadata"></audio>
+  </section>
+  <section class="screen egg-success" id="eggSuccess">
+   <div class="egg-basket">🧺🥚🥚</div><h2>Ура! Яйца найдены!</h2>
+   <p>Курочка услышала нас и поделилась свежими яичками. Теперь в нашей корзинке уже два важных ингредиента для праздничного торта!</p>
+   <div class="pill">💗 Собрано: мука 🌾 и яйца 🥚🥚</div>
+   <p><strong>А теперь отправимся на волшебный луг — там нас ждёт коровка!</strong></p>
+   <button class="primary" id="toMeadow">На волшебный луг! 🐄</button>
+  </section>
+
+  <section class="screen meadow" id="meadow">
+   <div class="heading"><div class="eyebrow">Этап 3 · Волшебный луг</div><h2>В поисках молока и масла 🥛</h2><p>Коровка приготовила для нас молоко. Но сначала нужно найти на лугу лишний предмет, который совсем не подходит для торта.</p></div>
+   <div class="meadow-scene">
+    <div class="cow-card"><div class="cow-emoji" role="img" aria-label="Пасущаяся корова">🐄</div><div class="cow-speech">«Му-у! Помогите убрать лишний предмет, и я поделюсь молочком!»</div></div>
+    <div class="cow-card"><strong>На волшебном лугу</strong><div class="yard-props" aria-label="Предметы на лугу"><span title="Кувшин">🏺</span><span title="Лейка">🚿</span><span title="Ведро с краской">🪣</span><span title="Чашка">☕</span></div><p style="margin:12px 0 0;line-height:1.45;text-align:center">Посмотри на четыре картинки и выбери то, что не может стать ингредиентом торта.</p></div>
+   </div>
+   <div class="heading"><p><strong>Игра «Четвёртый лишний»</strong></p></div>
+   <div class="odd-grid" aria-label="Выбери лишний предмет">
+    <button class="odd-choice" data-odd="milk" aria-label="Молоко"><span class="pic">🥛</span><strong>Молоко</strong></button>
+    <button class="odd-choice" data-odd="butter" aria-label="Сливочное масло"><span class="pic">🧈</span><strong>Сливочное масло</strong></button>
+    <button class="odd-choice" data-odd="sourcream" aria-label="Сметана"><span class="pic">🥣</span><strong>Сметана</strong></button>
+    <button class="odd-choice" data-odd="boot" aria-label="Резиновый сапог"><span class="pic">🥾</span><strong>Резиновый сапог</strong></button>
+   </div>
+   <div class="status" id="meadowStatus" aria-live="polite">Найди предмет, который совсем не подходит для приготовления торта.</div>
+   <div class="bottom-row"><div class="basket">🧺 Корзинка: <span class="basket-items" id="meadowBasket">🌾 🥚🥚</span></div><button class="next" id="milkNext">Забрать молоко в корзинку ➜</button></div>
+  </section>
+
+  <section class="screen milk-success" id="milkSuccess">
+   <div class="milk-art">🐄🥛</div><h2>Ура! Молоко найдено!</h2>
+   <p>Вы помогли коровке убрать лишний предмет. Сапог исчез с волшебного луга, а в корзинке появился кувшин свежего молока!</p>
+   <div class="pill">💗 Собрано: мука 🌾 · яйца 🥚🥚 · молоко 🥛</div>
+   <p><strong>У нас уже три ингредиента для праздничного торта! Вы настоящие помощники!</strong></p>
+   <button class="primary" id="goKitchen">На кухню — взбивать крем! 🥣</button>
+  </section>
+
+  <section class="screen kitchen-dance" id="kitchenDance">
+   <div class="heading"><div class="eyebrow">Этап 4 · Кухня</div><h2>Взбиваем пышный крем! 🥣</h2><p>Все продукты для теста готовы. Пора помочь поварёнку взбить нежный крем! Вставайте со стульчиков и повторяйте движения под весёлую музыку.</p></div>
+   <div class="dance-layout">
+    <div class="dance-card">
+     <div class="dance-bowl-wrap">
+      <button class="dance-bowl" id="creamBowl" disabled aria-label="Миска с кремом">🥣</button>
+      <strong id="bowlCaption">Большая миска ждёт волшебного крема</strong>
+      <div class="cream-reveal" id="creamReveal">✨ Ух ты! В миске появился пышный белый крем! ✨</div>
+     </div>
+     <div class="dance-note">После танца нажми на миску — и увидишь, что получилось!</div>
+    </div>
+    <div class="dance-card">
+     <div class="pill">🎵 Весёлая музыкальная пауза</div>
+     <div class="dance-timer" id="danceTimer">00:32</div>
+     <div class="dance-progress"><span id="danceBar"></span></div>
+     <div class="dance-instruction" id="danceCue">Приготовились? Крутим ручками, как миксер!</div>
+     <p class="dance-note" id="danceSubcue">Повторяй движения вместе с поварёнком. Танец длится 32 секунды.</p>
+     <div class="dance-controls"><button class="dance-start" id="startDance">▶ Начать танец</button></div>
+     <p class="dance-note" id="danceStatus" aria-live="polite">Нажми «Начать танец», чтобы включить музыку и таймер.</p>
+    </div>
+   </div>
+   <div class="bottom-row"><div class="basket">🧺 Корзинка: <span class="basket-items">🌾 🥚🥚 🥛</span></div><span class="pill">Сначала танцуем, потом нажимаем на миску!</span></div>
+  </section>
+
+  <section class="screen cream-success" id="creamSuccess">
+   <div class="cream-art">🥣🤍✨</div><h2>Крем готов!</h2>
+   <p>Как дружно вы потрудились! Ваши быстрые ручки взбили нежный, воздушный крем. Поварёнок благодарит вас за помощь!</p>
+   <div class="pill">💗 Уже готовы: мука 🌾 · яйца 🥚🥚 · молоко 🥛 · пышный крем 🤍</div>
+   <p><strong>Теперь осталось найти сладкие ягоды и украсить наш праздничный торт!</strong></p>
+   <button class="primary" id="toGarden">В сказочный сад — за ягодами! 🍓</button>
+  </section>
+
+  <section class="screen strawberry-garden" id="garden">
+   <div class="heading"><div class="eyebrow">Этап 5 · Сказочный сад</div><h2>В поисках ягод для украшения 🍓</h2><p>Картинка с самой сладкой ягодой рассыпалась на кусочки. Нажимай на фрагменты — каждый сам найдёт своё место!</p></div>
+   <div class="garden-scene">
+    <div class="garden-card"><span class="garden-emoji">🧚‍♀️</span><p>Фея сада: «Соберите клубничку, и она украсит наш праздничный торт!»</p></div>
+    <div class="garden-card"><span class="garden-emoji">🍓🌼</span><p>Нам нужна большая, спелая и сладкая ягодка. Все шесть кусочков ждут тебя справа!</p></div>
+   </div>
+   <div class="garden-layout">
+    <div class="puzzle-panel"><p class="puzzle-title">Собери картинку из 6 частей</p>
+     <div class="puzzle-board" id="puzzleBoard" aria-label="Поле для сборки клубники">
+      <div class="puzzle-slot" data-slot="0" aria-label="Место для первого фрагмента"></div>
+      <div class="puzzle-slot" data-slot="1" aria-label="Место для второго фрагмента"></div>
+      <div class="puzzle-slot" data-slot="2" aria-label="Место для третьего фрагмента"></div>
+      <div class="puzzle-slot" data-slot="3" aria-label="Место для четвёртого фрагмента"></div>
+      <div class="puzzle-slot" data-slot="4" aria-label="Место для пятого фрагмента"></div>
+      <div class="puzzle-slot" data-slot="5" aria-label="Место для шестого фрагмента"></div>
+     </div>
+    </div>
+    <div class="pieces-panel"><p class="puzzle-title">Перепутанные кусочки</p>
+     <div class="piece-tray" id="pieceTray">
+      <button class="puzzle-piece" data-piece="4" aria-label="Часть клубнички"><span>Фрагмент</span></button>
+      <button class="puzzle-piece" data-piece="1" aria-label="Часть клубнички"><span>Фрагмент</span></button>
+      <button class="puzzle-piece" data-piece="5" aria-label="Часть клубнички"><span>Фрагмент</span></button>
+      <button class="puzzle-piece" data-piece="0" aria-label="Часть клубнички"><span>Фрагмент</span></button>
+      <button class="puzzle-piece" data-piece="3" aria-label="Часть клубнички"><span>Фрагмент</span></button>
+      <button class="puzzle-piece" data-piece="2" aria-label="Часть клубнички"><span>Фрагмент</span></button>
+     </div>
+    </div>
+   </div>
+   <div class="garden-status" id="gardenStatus" aria-live="polite">Нажми на любой кусочек — он встанет на своё место.</div>
+   <div class="bottom-row"><div class="basket">🧺 Корзинка: <span class="basket-items" id="gardenBasket">🌾 🥚🥚 🥛 🤍</span></div><span class="pill">Осталось собрать 6 кусочков 🍓</span></div>
+  </section>
+
+  <section class="screen finale" id="finale">
+   <div class="confetti-layer" id="confettiLayer" aria-hidden="true"></div>
+   <div class="heading"><div class="eyebrow">Секретный рецепт разгадан</div><h2>С Днём Матери! 💗</h2></div>
+   <div class="cake-stage" role="img" aria-label="Большой праздничный многоярусный торт со свечами и цветами">
+    <svg viewBox="0 0 520 370" xmlns="http://www.w3.org/2000/svg">
+     <defs>
+      <linearGradient id="cakeCream" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#fffdf8"/><stop offset="1" stop-color="#f6dce7"/></linearGradient>
+      <linearGradient id="cakePink" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#f6a8c2"/><stop offset="1" stop-color="#d96f9b"/></linearGradient>
+      <linearGradient id="cakeGold" x1="0" y1="0" x2="0" y2="1"><stop stop-color="#ffe69a"/><stop offset="1" stop-color="#e9b64e"/></linearGradient>
+     </defs>
+     <ellipse cx="260" cy="332" rx="205" ry="22" fill="#bd8a9c" opacity=".22"/>
+     <!-- нижний ярус -->
+     <path d="M72 230Q72 210 94 210H426Q448 210 448 230V308Q448 326 426 326H94Q72 326 72 308Z" fill="url(#cakePink)" stroke="#fff" stroke-width="7"/>
+     <path d="M75 240Q110 250 145 240T215 240T285 240T355 240T445 240V260Q410 270 375 260T305 260T235 260T165 260T75 260Z" fill="#fff5ed" opacity=".96"/>
+     <path d="M95 292q18-22 36 0t36 0 36 0 36 0 36 0 36 0 36 0 36 0 36 0" fill="none" stroke="#fff0f5" stroke-width="7" stroke-linecap="round"/>
+     <!-- средний ярус -->
+     <path d="M125 145Q125 126 145 126H375Q395 126 395 145V224Q395 241 375 241H145Q125 241 125 224Z" fill="url(#cakeCream)" stroke="#fff" stroke-width="7"/>
+     <path d="M129 163Q155 174 180 163T231 163T282 163T333 163T391 163V184Q365 194 340 184T289 184T238 184T187 184T129 184Z" fill="#f5a7c1"/>
+     <path d="M150 211q16-18 32 0t32 0 32 0 32 0 32 0 32 0 32 0" fill="none" stroke="#eeb0c7" stroke-width="6" stroke-linecap="round"/>
+     <!-- верхний ярус -->
+     <path d="M180 76Q180 59 198 59H322Q340 59 340 76V143Q340 158 322 158H198Q180 158 180 143Z" fill="url(#cakeCream)" stroke="#fff" stroke-width="7"/>
+     <path d="M183 91Q204 100 225 91T267 91T309 91T337 91V109Q316 118 295 109T253 109T211 109T183 109Z" fill="url(#cakePink)"/>
+     <circle cx="208" cy="132" r="7" fill="#e78bab"/><circle cx="260" cy="132" r="7" fill="#e78bab"/><circle cx="312" cy="132" r="7" fill="#e78bab"/>
+     <!-- свечи -->
+     <g stroke-linecap="round"><path d="M220 58V26M260 58V18M300 58V26" stroke="#8ac3a0" stroke-width="9"/><path d="M220 45V34M260 42V25M300 45V34" stroke="#fff" stroke-width="4"/><path d="M220 18q-13-15 0-20 13 9 0 20M260 11q-14-16 0-22 14 10 0 22M300 18q-13-15 0-20 13 9 0 20" fill="#ffc85d" stroke="#f0a64b" stroke-width="2"/></g>
+     <!-- клубника и цветы -->
+     <g><path d="M103 211q-18-24-35-8 13 3 17 17-20-12-31 7 21-3 29 14 4-19 20-30Z" fill="#72b77f"/><path d="M88 211q-18-28-6-36 19 11 6 36" fill="#e95670"/><path d="M84 191l-4 7m13 1-5 5" stroke="#ffe8a6" stroke-width="3"/></g>
+     <g transform="translate(390 203)"><circle r="14" fill="#ffd66f"/><g fill="#fff4f7"><ellipse cy="-16" rx="9" ry="14"/><ellipse cy="16" rx="9" ry="14"/><ellipse cx="-16" rx="14" ry="9"/><ellipse cx="16" rx="14" ry="9"/></g><circle r="7" fill="#f3bd55"/></g>
+     <g transform="translate(150 123) scale(.72)"><circle r="14" fill="#ffd66f"/><g fill="#f5a9c3"><ellipse cy="-16" rx="9" ry="14"/><ellipse cy="16" rx="9" ry="14"/><ellipse cx="-16" rx="14" ry="9"/><ellipse cx="16" rx="14" ry="9"/></g><circle r="7" fill="#f3bd55"/></g>
+     <g fill="#e95069"><path d="M353 220q-13-20-25-5 3 19 25 25 22-6 25-25-12-15-25 5Z"/><path d="M415 275q-13-20-25-5 3 19 25 25 22-6 25-25-12-15-25 5Z"/></g>
+     <!-- подставка -->
+     <path d="M48 326H472Q485 326 485 340Q485 352 472 352H48Q35 352 35 340Q35 326 48 326Z" fill="url(#cakeGold)" stroke="#fff" stroke-width="6"/>
+     <path d="M82 341H438" stroke="#fff4ca" stroke-width="5" stroke-linecap="round"/>
+    </svg>
+   </div>
+   <p class="final-message">Ура! Торт готов! А главный секретный ингредиент в нём — ваша любовь к мамам. Вы помогли поварёнку собрать все продукты, приготовили крем и украсили торт самой сладкой клубничкой!</p>
+   <div class="secret-ingredient">💗 Самый главный ингредиент — любовь, забота, добрые слова и нежные объятия!</div>
+   <div class="final-actions"><button class="primary" id="restartFinal">Пройти квест ещё раз ↻</button></div>
+  </section>
+ </main>
+ <div class="footer">С любовью — для самых дорогих мам 💗</div>
+</div>
+<audio id="danceAudio" src="assets/dance-music.mp3" preload="auto"></audio>
+<audio id="applauseAudio" src="assets/applause.mp3" preload="none"></audio>
+<audio id="celebrationAudio" src="assets/celebration.mp3" preload="none"></audio>
+<script>
+const screens=[...document.querySelectorAll('.screen')];
+function show(id){
+ const activeScreen=screens.find(screen=>screen.classList.contains('active'));
+ if(activeScreen&&activeScreen.id==='birdyard'&&id!=='birdyard')stopCluckSound();
+ screens.forEach(s=>s.classList.toggle('active',s.id===id));
+ const labels={intro:'Приключение начинается',pantry:'Этап 1 из 5 · Собираем ингредиенты',success:'Первый ингредиент найден',birdyard:'Этап 2 из 5 · Собираем ингредиенты',eggSuccess:'Второй ингредиент найден',meadow:'Этап 3 из 5 · Собираем ингредиенты',milkSuccess:'Третий ингредиент найден',kitchenDance:'Этап 4 из 5 · Взбиваем крем',creamSuccess:'Четвёртый этап завершён',garden:'Этап 5 из 5 · Собираем ягоды',finale:'Праздничный финал · С Днём Матери!'};
+ document.getElementById('progress').textContent=labels[id]||'Сказочное приключение';
+ window.scrollTo({top:0,behavior:'smooth'});
+}
+document.getElementById('start').addEventListener('click',()=>show('pantry'));
+const status=document.getElementById('status'), basket=document.getElementById('basket'), next=document.getElementById('next');
+let flourLocked=false, eggsLocked=false;
+const soundToggle=document.getElementById('soundToggle');
+const cluckAudio=document.getElementById('cluckAudio');
+const danceAudio=document.getElementById('danceAudio');
+const applauseAudio=document.getElementById('applauseAudio');
+const celebrationAudio=document.getElementById('celebrationAudio');
+const soundStatus=document.getElementById('soundStatus');
+const audioTracks=[cluckAudio,danceAudio,applauseAudio,celebrationAudio];
+const DANCE_DURATION_SECONDS=32;
+let soundEnabled=true;
+function setSoundEnabled(enabled){
+ soundEnabled=enabled;
+ audioTracks.forEach(track=>{track.muted=!enabled;});
+ if(!enabled)stopCluckSound();
+ soundToggle.textContent=enabled?'🔊 Звук включён':'🔇 Звук выключен';
+ soundToggle.setAttribute('aria-pressed',String(enabled));
+ if(enabled&&danceInterval&&!danceUsesAudioClock){
+  const elapsed=getDanceElapsedSeconds();
+  playDanceMusic(elapsed).then(started=>{
+   if(started&&danceInterval){danceUsesAudioClock=true;danceStatus.textContent='Музыка подключилась к танцу — теперь всё идёт в такт!';}
+  });
+ }
+}
+soundToggle.addEventListener('click',()=>setSoundEnabled(!soundEnabled));
+function playEffect(track){
+ if(!track||!soundEnabled)return;
+ try{
+  track.pause();track.currentTime=0;
+  const playback=track.play();
+  if(playback&&playback.catch)playback.catch(()=>{});
+ }catch(e){}
+}
+function applause(){playEffect(applauseAudio);}
+cluckAudio.volume=.9;danceAudio.volume=.72;applauseAudio.volume=.7;celebrationAudio.volume=.78;
+document.querySelectorAll('.choice').forEach(btn=>btn.addEventListener('click',()=>{
+ if(flourLocked)return;
+ const right=btn.dataset.item==='flour';
+ if(right){flourLocked=true;btn.classList.add('correct');document.querySelectorAll('.choice').forEach(b=>b.disabled=true);basket.textContent='🌾';status.textContent='Ура! Это мешочек с мукой! Он отправляется в корзинку. Хлопаем в ладоши! 👏';applause();next.classList.add('show');}
+ else{btn.classList.remove('wrong');void btn.offsetWidth;btn.classList.add('wrong');status.textContent='Ой, этот предмет не подходит к тени. Попробуй ещё раз! 💫';setTimeout(()=>btn.classList.remove('wrong'),450);}
+}));
+next.addEventListener('click',()=>show('success'));
+
+function playCluck(){
+ if(!cluckAudio)return;
+ if(!soundEnabled){soundStatus.textContent='Звук выключен. Включи его кнопкой вверху.';return;}
+ try{cluckAudio.currentTime=0;const p=cluckAudio.play();if(p&&p.then){p.then(()=>{soundStatus.textContent='Кудах-кудах! Слушай внимательно 👂';}).catch(()=>{soundStatus.textContent='Нажми «Послушать ещё раз», чтобы включить звук.';});}}
+ catch(e){soundStatus.textContent='Нажми «Послушать ещё раз», чтобы включить звук.';}
+}
+function stopCluckSound(){
+ if(!cluckAudio)return;
+ cluckAudio.pause();
+ try{cluckAudio.currentTime=0;}catch(e){}
+}
+document.getElementById('toBirdyard').addEventListener('click',()=>{show('birdyard');playCluck();});
+document.getElementById('playCluck').addEventListener('click',playCluck);
+const birdStatus=document.getElementById('birdStatus');
+const birdBasket=document.getElementById('birdBasket');
+const eggsNext=document.getElementById('eggsNext');
+document.querySelectorAll('.bird-choice').forEach(btn=>btn.addEventListener('click',()=>{
+ if(eggsLocked)return;
+ stopCluckSound();
+ if(btn.dataset.bird==='chicken'){
+  eggsLocked=true;btn.classList.add('correct');document.querySelectorAll('.bird-choice').forEach(b=>b.disabled=true);
+  birdBasket.textContent='🌾 🥚🥚';birdStatus.textContent='Ко-ко-ко! Правильно, это курочка! Она поделилась с нами свежими яичками. Ура! 👏';
+  applause();eggsNext.classList.add('show');
+ }else{
+  btn.classList.remove('wrong');void btn.offsetWidth;btn.classList.add('wrong');
+  const tips={duck:'Уточка говорит «кря-кря». Послушай запись ещё раз!',goose:'Гусь обычно гогочет. Попробуй послушать ещё раз!',sparrow:'Воробей чирикает. Кто же кудахчет на птичьем дворе?'};
+  birdStatus.textContent=tips[btn.dataset.bird]||'Послушай ещё раз и попробуй снова!';
+  setTimeout(()=>btn.classList.remove('wrong'),450);
+ }
+}));
+eggsNext.addEventListener('click',()=>show('eggSuccess'));
+
+document.getElementById('toMeadow').addEventListener('click',()=>show('meadow'));
+const meadowStatus=document.getElementById('meadowStatus');
+const meadowBasket=document.getElementById('meadowBasket');
+const milkNext=document.getElementById('milkNext');
+let milkLocked=false;
+document.querySelectorAll('.odd-choice').forEach(btn=>btn.addEventListener('click',()=>{
+ if(milkLocked)return;
+ if(btn.dataset.odd==='boot'){
+  milkLocked=true;btn.classList.add('correct');
+  meadowStatus.textContent='Правильно! Резиновый сапог совсем не подходит для торта. Он исчезает с луга, а коровка дарит нам кувшин молока! 👏';
+  applause();
+  window.setTimeout(()=>{btn.classList.remove('correct');btn.classList.add('removed');btn.disabled=true;},420);
+  document.querySelectorAll('.odd-choice').forEach(b=>{if(b!==btn)b.disabled=true;});
+  meadowBasket.textContent='🌾 🥚🥚 🥛';
+  milkNext.classList.add('show');
+ }else{
+  btn.classList.remove('wrong');void btn.offsetWidth;btn.classList.add('wrong');
+  meadowStatus.textContent='Этот продукт может пригодиться для торта! Подумай, какой предмет совсем не относится к еде. 💫';
+  setTimeout(()=>btn.classList.remove('wrong'),450);
+ }
+}));
+milkNext.addEventListener('click',()=>show('milkSuccess'));
+
+
+// Этап 4: музыкальная физкультминутка и приготовление крема.
+const danceTimerEl=document.getElementById('danceTimer');
+const danceBar=document.getElementById('danceBar');
+const danceCue=document.getElementById('danceCue');
+const danceSubcue=document.getElementById('danceSubcue');
+const danceStatus=document.getElementById('danceStatus');
+const startDanceBtn=document.getElementById('startDance');
+const creamBowl=document.getElementById('creamBowl');
+const bowlCaption=document.getElementById('bowlCaption');
+const creamReveal=document.getElementById('creamReveal');
+let danceInterval=null,danceRemaining=DANCE_DURATION_SECONDS,danceFinished=false,danceStarting=false,danceUsesAudioClock=false,danceClockStartedAt=null;
+function formatTime(seconds){return '00:'+String(seconds).padStart(2,'0');}
+function playDanceMusic(startAt=0){
+ if(!soundEnabled){danceStatus.textContent='Звук выключен — можно включить его кнопкой вверху.';return Promise.resolve(false);}
+ try{
+  danceAudio.currentTime=Math.min(Math.max(0,startAt),DANCE_DURATION_SECONDS-.05);
+  const playback=danceAudio.play();
+  if(playback&&playback.then)return playback.then(()=>true).catch(()=>{danceStatus.textContent='Музыку не удалось включить. Танцуй по подсказкам — таймер продолжает идти!';return false;});
+  return Promise.resolve(true);
+ }catch(e){danceStatus.textContent='Музыку не удалось включить. Танцуй по подсказкам — таймер продолжает идти!';return Promise.resolve(false);}
+}
+function getDanceElapsedSeconds(){
+ if(danceUsesAudioClock&&!danceAudio.paused)return danceAudio.currentTime;
+ if(danceClockStartedAt===null)return 0;
+ return Math.max(0,(performance.now()-danceClockStartedAt)/1000);
+}
+function stopDanceMusic(){
+ danceAudio.pause();
+ try{danceAudio.currentTime=0;}catch(e){}
+ danceUsesAudioClock=false;danceClockStartedAt=null;danceStarting=false;
+}
+function danceCueFor(elapsed){
+ if(elapsed<9){danceCue.textContent='Крутим ручками, как миксер! 🌀';danceSubcue.textContent='Поставь локти в стороны и вращай ладошками перед собой.';}
+ else if(elapsed<18){danceCue.textContent='Прыгаем, как пузырьки в тесте! 🫧';danceSubcue.textContent='Сделай несколько лёгких пружинок или поднимайся на носочки.';}
+ else if(elapsed<26){danceCue.textContent='Дуем на горячий корж! 💨';danceSubcue.textContent='Набери воздух и осторожно подуй — фу-у-у!';}
+ else{danceCue.textContent='Взбиваем быстрее и хлопаем! 👏';danceSubcue.textContent='Ещё немного старания — наш крем почти готов!';}
+}
+function finishDance(){
+ if(danceInterval){clearInterval(danceInterval);danceInterval=null;}
+ stopDanceMusic();danceRemaining=0;danceTimerEl.textContent='00:00';danceBar.style.width='100%';
+ danceCue.textContent='Ура! Танец завершён! ✨';danceSubcue.textContent='Теперь нажми на большую миску, чтобы увидеть пышный белый крем.';
+ danceStatus.textContent='Ты отлично потрудился(ась)! Миска теперь волшебная — нажми на неё.';
+ startDanceBtn.disabled=true;startDanceBtn.textContent='Танец завершён ✓';
+ creamBowl.disabled=false;creamBowl.classList.add('ready');danceFinished=true;
+}
+function startDance(){
+ if(danceInterval||danceStarting||danceFinished)return;
+ danceStarting=true;
+ danceRemaining=DANCE_DURATION_SECONDS;danceTimerEl.textContent=formatTime(danceRemaining);danceBar.style.width='0%';
+ startDanceBtn.disabled=true;startDanceBtn.textContent='Готовим музыку…';danceStatus.textContent='Синхронизируем музыку, таймер и движения…';danceCueFor(0);
+ const beginClock=hasMusic=>{
+  danceStarting=false;
+  if(danceFinished)return;
+  danceUsesAudioClock=hasMusic&&!danceAudio.paused;
+  danceClockStartedAt=performance.now();
+  startDanceBtn.textContent='Танцуем!';
+  if(danceUsesAudioClock)danceStatus.textContent='Музыка играет — таймер и движения идут в такт!';
+  else if(!soundEnabled)danceStatus.textContent='Танец начался без музыки. Включи звук сверху, чтобы подключить её в такт.';
+  danceInterval=window.setInterval(()=>{
+   const elapsedSeconds=getDanceElapsedSeconds();
+   const elapsed=Math.min(DANCE_DURATION_SECONDS,Math.floor(elapsedSeconds));
+   danceRemaining=Math.max(0,DANCE_DURATION_SECONDS-elapsed);danceTimerEl.textContent=formatTime(danceRemaining);danceBar.style.width=(elapsed/DANCE_DURATION_SECONDS*100)+'%';danceCueFor(elapsed);
+   if(elapsedSeconds>=DANCE_DURATION_SECONDS)finishDance();
+  },100);
+ };
+ playDanceMusic(0).then(beginClock).catch(()=>beginClock(false));
+}
+startDanceBtn.addEventListener('click',startDance);
+danceAudio.addEventListener('ended',()=>{if(danceInterval)finishDance();});
+creamBowl.addEventListener('click',()=>{
+ if(!danceFinished)return;
+ creamBowl.disabled=true;creamBowl.classList.remove('ready');creamBowl.textContent='🍦';bowlCaption.textContent='Пышный крем готов — можно украшать торт!';creamReveal.classList.add('show');
+ danceStatus.textContent='Волшебство получилось! Крем готов. Ура! 👏';applause();
+ window.setTimeout(()=>show('creamSuccess'),1300);
+});
+document.getElementById('goKitchen').addEventListener('click',()=>show('kitchenDance'));
+
+
+
+// Переход к пятому этапу — собираем клубничный пазл из шести фрагментов.
+ document.getElementById('toGarden').addEventListener('click',()=>show('garden'));
+ const gardenStatus=document.getElementById('gardenStatus');
+ const puzzleBoard=document.getElementById('puzzleBoard');
+ const puzzleSlots=[...document.querySelectorAll('.puzzle-slot')];
+ const puzzlePieces=[...document.querySelectorAll('.puzzle-piece')];
+ const gardenBasket=document.getElementById('gardenBasket');
+ let puzzleCount=0, finaleShown=false;
+ const berryDrawing=`
+  <defs>
+   <linearGradient id="berryBg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f4ffe9"/><stop offset="1" stop-color="#d7edc7"/></linearGradient>
+   <linearGradient id="berryRed" x1="0" y1="0" x2=".8" y2="1"><stop stop-color="#ff7890"/><stop offset="1" stop-color="#d9234f"/></linearGradient>
+  </defs>
+  <rect width="300" height="180" fill="url(#berryBg)"/>
+  <circle cx="36" cy="35" r="15" fill="#fff5b8" opacity=".8"/><circle cx="262" cy="35" r="11" fill="#fff" opacity=".8"/>
+  <path d="M0 145Q55 116 100 147T205 143T300 139V180H0Z" fill="#9bce85"/>
+  <path d="M150 34Q127 12 113 27Q128 47 145 49Q117 37 108 57Q132 61 150 49Q167 61 192 57Q182 37 155 49Q176 44 187 27Q170 12 150 34Z" fill="#398b51" stroke="#2d7747" stroke-width="3"/>
+  <path d="M150 44C134 58 94 80 105 119C113 151 137 164 150 170C164 164 188 151 196 119C206 80 166 58 150 44Z" fill="url(#berryRed)" stroke="#bd234b" stroke-width="4"/>
+  <path d="M150 55Q122 79 121 104" stroke="#ffb4be" stroke-width="7" fill="none" stroke-linecap="round" opacity=".6"/>
+  <g fill="#ffe7a0"><ellipse cx="132" cy="83" rx="3" ry="5" transform="rotate(-25 132 83)"/><ellipse cx="157" cy="77" rx="3" ry="5"/><ellipse cx="176" cy="94" rx="3" ry="5" transform="rotate(25 176 94)"/><ellipse cx="122" cy="110" rx="3" ry="5"/><ellipse cx="148" cy="105" rx="3" ry="5"/><ellipse cx="181" cy="120" rx="3" ry="5"/><ellipse cx="135" cy="135" rx="3" ry="5"/><ellipse cx="159" cy="145" rx="3" ry="5"/><ellipse cx="174" cy="135" rx="3" ry="5"/></g>
+  <g fill="#fff" opacity=".8"><path d="M54 76l5 10 10 5-10 5-5 10-5-10-10-5 10-5Z"/><path d="M242 91l4 8 8 4-8 4-4 8-4-8-8-4 8-4Z"/></g>
+ `;
+ function berryPieceSvg(index){
+  const col=index%3,row=Math.floor(index/3),vx=col*100,vy=row*90;
+  return `<svg viewBox="${vx} ${vy} 100 90" role="img" aria-label="Фрагмент клубничной картинки" preserveAspectRatio="xMidYMid slice">${berryDrawing}</svg>`;
+ }
+ puzzlePieces.forEach(btn=>{
+  const piece=Number(btn.dataset.piece);
+  btn.insertAdjacentHTML('afterbegin',berryPieceSvg(piece));
+  btn.addEventListener('click',()=>{
+   if(btn.disabled||finaleShown)return;
+   const target=piece;
+   const slot=puzzleSlots[target];
+   slot.innerHTML=berryPieceSvg(target);
+   slot.classList.add('filled');
+   btn.disabled=true;btn.classList.add('used');
+   puzzleCount++;
+   const remaining=6-puzzleCount;
+   gardenStatus.textContent=remaining?`Отлично! Фрагмент нашёл своё место. Осталось собрать ещё ${remaining}. 🍓`:'Ура! Клубничка собрана целиком! Она отправляется украшать торт! 🍓';
+   if(puzzleCount===6){
+    finaleShown=true;puzzleBoard.classList.add('completed');
+    gardenBasket.textContent='🌾 🥚🥚 🥛 🤍 🍓';
+    applause();
+    playCelebrationMusic();
+    window.setTimeout(()=>{show('finale');launchConfetti();},450);
+   }
+  });
+ });
+
+ function playCelebrationMusic(){
+  playEffect(celebrationAudio);
+ }
+ function launchConfetti(){
+  const layer=document.getElementById('confettiLayer');if(!layer)return;
+  layer.innerHTML='';
+  const colors=['#ef6e9a','#f6c75e','#85c99b','#9e8ad8','#76b8d1','#f29c71'];
+  for(let i=0;i<65;i++){
+   const piece=document.createElement('span');piece.className='confetti-piece';
+   piece.style.left=(Math.random()*100)+'%';piece.style.background=colors[i%colors.length];
+   piece.style.setProperty('--fall-duration',(3.2+Math.random()*3.2)+'s');
+   piece.style.setProperty('--fall-delay',(Math.random()*1.8)+'s');
+   piece.style.setProperty('--drift',((Math.random()-.5)*180)+'px');
+   piece.style.setProperty('--turn',(Math.random()*180)+'deg');
+   layer.appendChild(piece);
+  }
+ }
+
+document.getElementById('restartFinal').addEventListener('click',()=>{
+ flourLocked=false;eggsLocked=false;milkLocked=false;
+ if(danceInterval){clearInterval(danceInterval);danceInterval=null;}stopDanceMusic();danceRemaining=DANCE_DURATION_SECONDS;danceFinished=false;danceTimerEl.textContent=formatTime(DANCE_DURATION_SECONDS);danceBar.style.width='0%';danceCue.textContent='Приготовились? Крутим ручками, как миксер!';danceSubcue.textContent='Повторяй движения вместе с поварёнком. Танец длится 32 секунды.';danceStatus.textContent='Нажми «Начать танец», чтобы включить музыку и таймер.';startDanceBtn.disabled=false;startDanceBtn.textContent='▶ Начать танец';creamBowl.disabled=true;creamBowl.classList.remove('ready');creamBowl.textContent='🥣';bowlCaption.textContent='Большая миска ждёт волшебного крема';creamReveal.classList.remove('show');
+ document.querySelectorAll('.choice,.bird-choice,.odd-choice').forEach(b=>{b.disabled=false;b.classList.remove('correct','wrong','removed')});
+ basket.textContent='пока пусто';birdBasket.textContent='🌾';meadowBasket.textContent='🌾 🥚🥚';
+ status.textContent='Подумай внимательно — что за предмет спрятался в тени?';
+ birdStatus.textContent='Кто же из птиц так кудахчет? Выбери одну птичку!';meadowStatus.textContent='Найди предмет, который совсем не подходит для приготовления торта.';
+ next.classList.remove('show');eggsNext.classList.remove('show');milkNext.classList.remove('show');
+ puzzleCount=0;finaleShown=false;puzzleBoard.classList.remove('completed');gardenBasket.textContent='🌾 🥚🥚 🥛 🤍';gardenStatus.textContent='Нажми на любой кусочек — он встанет на своё место.';
+ puzzleSlots.forEach(slot=>{slot.innerHTML='';slot.classList.remove('filled');});puzzlePieces.forEach(btn=>{btn.disabled=false;btn.classList.remove('used');});document.getElementById('confettiLayer').innerHTML='';
+ audioTracks.forEach(track=>{track.pause();try{track.currentTime=0;}catch(e){}});
+ show('intro');
+});
+</script>
+</body></html>
